@@ -136,3 +136,11 @@ x = array(rnorm(nel), dim=c(NR,NC))
 cbind(NR=NR, NC=NC, times=times, do.call(rbind,
     lapply(methods, function(z) getStats(times, x, rtfun=z))))
 }
+           
+#' helper for creating a methodlist
+#' @param methods a character vector with tags for available round trip methods
+#' export
+methodList = function(methods=c("hdf5", "bigm", "sqlite", "ff")) {
+   allm = list(hdf5=.h5RoundTrip, bigm=.bmRoundTrip, sqlite=.slRoundTrip, ff=.ffRoundTrip, dt=.dtRoundTrip)
+   allm[methods]
+   }
