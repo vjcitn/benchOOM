@@ -123,10 +123,10 @@ getStats = function(times, ..., summstat = mean, rtfun=.h5RoundTrip) {
 #' harness for out-of-memory benchmarking
 #' @param NR numeric number of rows of matrix to process
 #' @param NC numeric number of columns
-#' @param times numeric, as used by \code{\link[microbenchmark]}{microbenchmark}, number of times to execute for averaging
+#' @param times numeric, as used by \code{\link[microbenchmark]{microbenchmark}}, number of times to execute for averaging
 #' @param inseed numeric, as used by \code{\link[base]{set.seed}}
 #' @param methods a list of functions, each having arguments \code{x} and \code{intimes}, with \code{x}
-#'     the matrix being processed and \code{\intimes} to be passed to microbenchmark for \code{times}
+#'     the matrix being processed and \code{intimes} to be passed to microbenchmark for \code{times}
 #' @export
 benchOOM = function(NR=5000, NC=100, times=5, inseed=1234,
   methods = list(.h5RoundTrip, .ffRoundTrip, .slRoundTrip, .dtRoundTrip, .bmRoundTrip)) {
