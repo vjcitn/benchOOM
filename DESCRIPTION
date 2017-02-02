@@ -4,8 +4,7 @@ Version: 0.0.0
 Author: VJ Carey <stvjc@channing.harvard.edu> and others
 Description: Provide infrastructure to compare diverse out-of-memory strategies.
 Suggests: rmarkdown, knitr
-Imports: IRanges
-Imports: rhdf5, bigmemory, RSQLite, ff
+Imports: rhdf5, bigmemory, RSQLite, ff, data.table, microbenchmark
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
 LazyLoad: yes
