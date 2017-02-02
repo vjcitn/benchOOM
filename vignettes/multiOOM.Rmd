@@ -3,19 +3,8 @@ layout: page
 title: "Benchmarking multiple out-of-memory strategies"
 ---
 
-```{r options, echo=FALSE}
-library(knitr)
-opts_chunk$set(fig.path=paste0("figure/", sub("(.*).Rmd","\\1",basename(knitr:::knit_concord$get('infile'))), "-"))
-suppressPackageStartupMessages({
-suppressWarnings({
-library(ph525x)
-library(microbenchmark)
-library(bigmemory)
-library(rhdf5)
-library(RSQLite)
-})
-})
-```
+
+
 
 
 ## Introduction
@@ -37,6 +26,7 @@ as a "harness" (see [wikipedia](https://en.wikipedia.org/wiki/Test_harness)
 for related discussion).  We have such a program in ph525x:
 
 ```{r lkph}
+library(benchOOM)
 benchOOM
 ```
 
@@ -79,7 +69,7 @@ of `getStats` to independent investigation.
 
 Let's look at the method for HDF5:
 ```{r lkme}
-ph525x:::.h5RoundTrip
+benchOOM:::.h5RoundTrip
 ```
 
 The program has three main phases
