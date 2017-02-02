@@ -3,7 +3,12 @@
 # strategies, will write in current folder without checking
 # for clobbering
 #
-
+#' @import rhdf5
+#' @import ff
+#' @import microbenchmark
+#' @import data.table
+#' @import RSQLite
+#' @import bigmemory
 .h5RoundTrip = function(x, chunkIn=c(1000,10), inLevel=0, intimes=1) {
 #system("rm -rf ex_hdf5file.h5")
 if (file.exists("ex_hdf5file.h5")) file.remove("ex_hdf5file.h5")
