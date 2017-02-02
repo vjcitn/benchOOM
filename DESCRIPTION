@@ -3,9 +3,18 @@ Title: benchmarking out-of-memory strategies for R
 Version: 0.0.0
 Author: VJ Carey <stvjc@channing.harvard.edu> and others
 Description: Provide infrastructure to compare diverse out-of-memory strategies.
-Suggests: rmarkdown, knitr
-Imports: rhdf5, bigmemory, RSQLite, ff, data.table, microbenchmark
+Suggests:
+    rmarkdown,
+    knitr
+Imports:
+    rhdf5,
+    bigmemory,
+    RSQLite,
+    ff,
+    data.table,
+    microbenchmark
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
 LazyLoad: yes
 VignetteBuilder: knitr
+RoxygenNote: 6.0.0
