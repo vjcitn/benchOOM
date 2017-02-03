@@ -118,7 +118,9 @@ getStats = function(times, ..., summstat = mean, rtfun=.h5RoundTrip) {
    ingFull=summstat(sapply(r, function(x)x[,"time"]/10^6)),
    ing1K=summstat(sapply(rsel, function(x)x[,"time"]/10^6))
    )
-  data.frame(ans)
+  ans = data.frame(ans)
+  attr(ans, "units") = "microsec" # depends on 10^6 denominator above
+  ans
 }
 #' harness for out-of-memory benchmarking
 #' @param NR numeric number of rows of matrix to process
