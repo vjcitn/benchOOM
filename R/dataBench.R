@@ -118,7 +118,9 @@ getStats = function(times, ..., summstat = mean, rtfun=.h5RoundTrip) {
    ingFull=summstat(sapply(r, function(x)x[,"time"]/10^6)),
    ing1K=summstat(sapply(rsel, function(x)x[,"time"]/10^6))
    )
-  data.frame(ans)
+  ans = data.frame(ans)
+  attr(ans, "units") = "microsec" # depends on 10^6 denominator above
+  ans
 }
 #' harness for out-of-memory benchmarking
 #' @param NR numeric number of rows of matrix to process
@@ -127,6 +129,11 @@ getStats = function(times, ..., summstat = mean, rtfun=.h5RoundTrip) {
 #' @param inseed numeric, as used by \code{\link[base]{set.seed}}
 #' @param methods a list of functions, each having arguments \code{x} and \code{intimes}, with \code{x}
 #'     the matrix being processed and \code{intimes} to be passed to microbenchmark for \code{times}
+#' @note the \code{methodList} function collects some example 'round trip' simulation functions
+#' @example
+methodList()$bigm
+names(methodList())
+benchOOM(methods=methodList())
 #' @export
 benchOOM = function(NR=5000, NC=100, times=5, inseed=1234,
   methods = list(.h5RoundTrip, .ffRoundTrip, .slRoundTrip, .dtRoundTrip, .bmRoundTrip)) {
