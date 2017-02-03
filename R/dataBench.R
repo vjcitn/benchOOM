@@ -118,30 +118,7 @@ getStats = function(times, ..., summstat = mean, rtfun=.h5RoundTrip) {
    ingFull=summstat(sapply(r, function(x)x[,"time"]/10^6)),
    ing1K=summstat(sapply(rsel, function(x)x[,"time"]/10^6))
    )
-  ans = data.frame(ans)
-  attr(ans, "units") = "microsec" # depends on 10^6 denominator above
-  ans
-}
-#' harness for out-of-memory benchmarking
-#' @param NR numeric number of rows of matrix to process
-#' @param NC numeric number of columns
-#' @param times numeric, as used by \code{\link[microbenchmark]{microbenchmark}}, number of times to execute for averaging
-#' @param inseed numeric, as used by \code{\link[base]{set.seed}}
-#' @param methods a list of functions, each having arguments \code{x} and \code{intimes}, with \code{x}
-#'     the matrix being processed and \code{intimes} to be passed to microbenchmark for \code{times}
-#' @note the \code{methodList} function collects some example 'round trip' simulation functions
-#' @example
-methodList()$bigm
-names(methodList())
-benchOOM(methods=methodList())
-#' @export
-benchOOM = function(NR=5000, NC=100, times=5, inseed=1234,
-  methods = list(.h5RoundTrip, .ffRoundTrip, .slRoundTrip, .dtRoundTrip, .bmRoundTrip)) {
-nel = NR * NC
-set.seed(inseed)
-x = array(rnorm(nel), dim=c(NR,NC))
-cbind(NR=NR, NC=NC, times=times, do.call(rbind,
-    lapply(methods, function(z) getStats(times, x, rtfun=z))))
+  data.frame(ans)
 }
 #' helper for creating a methodlist
 #' @param methods a character vector with tags for available round trip methods
@@ -150,3 +127,22 @@ methodList = function(methods=c("hdf5", "bigm", "sqlite", "ff")) {
    allm = list(hdf5=.h5RoundTrip, bigm=.bmRoundTrip, sqlite=.slRoundTrip, ff=.ffRoundTrip, dt=.dtRoundTrip)
    allm[methods]
    }
+#'
+#' harness for out-of-memory benchmarking
+#' @param NR numeric number of rows of matrix to process
+#' @param NC numeric number of columns
+#' @param times numeric, as used by \code{\link[microbenchmark]{microbenchmark}}, number of times to execute for averaging
+#' @param inseed numeric, as used by \code{\link[base]{set.seed}}
+#' @param methods a list of functions, each having arguments \code{x} and \code{intimes}, with \code{x}
+#'     the matrix being processed and \code{intimes} to be passed to microbenchmark for \code{times}
+#' @note the \code{methodList} function collects some example 'round trip' simulation functions
+#' @example inst/scripts/benchOOM-example.txt
+#' @export
+benchOOM = function(NR=5000, NC=100, times=5, inseed=1234,
+  methods = list(.h5RoundTrip, .ffRoundTrip, .slRoundTrip, .dtRoundTrip, .bmRoundTrip)) {
+nel = NR * NC
+set.seed(inseed)
+x = array(rnorm(nel), dim=c(NR,NC))
+cbind(NR=NR, NC=NC, times=times, do.call(rbind,
+    lapply(methods, function(z) getStats(times, x, rtfun=z))),units="microsec") # contingent on 10^6 in getStats
+}
