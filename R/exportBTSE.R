@@ -1,13 +1,11 @@
-#' @import SummarizedExperiment
-#' @import bigrquery
-#' support for BigTable-backed SummarizedExperiment
-#' @param x \code{\link[SummarizedExperiment]{SummarizedExperiment-class}} instance
-#' @param src src_bigquery instance
-#' @param datasetname identifier for bigtable
-#' @param tablename character string identifying dataset
-#' @param \dots passed down
-#' @aliases "writeBigTable-RangedSummarizedExperiment"
-#' @export
+#' propagate information from a RangedSummarizedExperiment to google BigTable
+#' @param x RangedSummarizedExperiment
+#' @param src instance of src_bigrquery
+#' @param featureKeyName character string that is used for joining features to metadata
+#' @param sampleKeyName character string that is used for joining samples to feature data
+#' @param tablename character string used as a prefix, suffixes _assay, _ranges, _coldata will be appended in the back end
+#' @param \dots not used
+#' export
 setGeneric("writeBigTable", function(x, src, featureKeyName, sampleKeyName, tablename, ...)
    standardGeneric("writeBigTable"))
 setOldClass("src_bigquery")
