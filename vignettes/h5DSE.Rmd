@@ -1,0 +1,51 @@
+---
+title: "h5DSE -- experiments with delayed HDF5 export/import for SummarizedExperiments"
+author: "Vincent J. Carey, stvjc at channing.harvard.edu"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{h5DSE: Out-of-memory illustrations for SummarizedExperiment}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::pdf_document:
+    toc: yes
+    number_sections: yes
+  BiocStyle::html_document:
+    highlight: pygments
+    number_sections: yes
+    theme: united
+    toc: yes
+---
+
+# Introduction
+
+We want to get some background on the use of HDF5 and DelayedArray
+infrastructure for modest-size assay sets.
+
+We'll work with some 450k data.
+```{r setup}
+suppressPackageStartupMessages({
+library(SummarizedExperiment)
+library(HDF5Array)
+library(yriMulti)
+if (!exists("banovichSE")) data(banovichSE)
+})
+banovichSE
+```
+
+Let's use the newly defined method for exporting the
+assay component of a SummarizedExperiment:
+```{r donew}
+library(benchOOM)
+tf = tempfile()
+dir.create(tf)
+target = paste0(tf, "/banoSE.h5", collapse="/")
+banoSE = writeHDF5Dataset(banovichSE, target, "banoSE")
+banoSE
+```
+
+Access capabilities:
+```{r usenew}
+assay(banoSE[1,])
+subsetByOverlaps(banoSE, rowRanges(banoSE)[1001:1010])
+```

@@ -2,7 +2,10 @@
 
 export(benchOOM)
 export(methodList)
+export(writeHDF5Dataset)
+exportClasses(DelayedRangedSummarizedExperiment)
 import(RSQLite)
+import(SummarizedExperiment)
 import(bigmemory)
 import(data.table)
 import(ff)
