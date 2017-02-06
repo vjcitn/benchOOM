@@ -14,3 +14,5 @@ from store, ing1K is ingest 1000 rows.
 5 5000 100     2  bigmemory  29.09477   1.592431  0.756485 microsec
 ```
 
+Also includes tentative work on exporting assay data from a RangedSummarizedExperiment as a DelayedArray with HDF5 back end.
+
