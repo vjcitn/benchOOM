@@ -1,4 +1,5 @@
 #' @import SummarizedExperiment
+#' @import HDF5Array
 
 .writeHDF5Dataset = function (x, file, name, ...) 
 {

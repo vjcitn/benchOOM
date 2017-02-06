@@ -14,7 +14,8 @@ Imports:
     ff,
     data.table,
     microbenchmark,
-    HDF5Array
+    HDF5Array,
+    SummarizedExperiment
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
 LazyLoad: yes
