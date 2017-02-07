@@ -1,5 +1,5 @@
 ---
-title: "h5DSE -- experiments with delayed HDF5 export/import for SummarizedExperiments"
+title: "h5SE -- experiments with delayed HDF5 export/import for SummarizedExperiments"
 author: "Vincent J. Carey, stvjc at channing.harvard.edu"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 vignette: >
@@ -33,6 +33,8 @@ if (!exists("banovichSE")) data(banovichSE)
 banovichSE
 ```
 
+# Export a standard RangedSummarizedExperiment
+
 Let's use the newly defined method for exporting the
 assay component of a SummarizedExperiment:
 ```{r donew}
@@ -40,7 +42,7 @@ library(benchOOM)
 tf = tempfile()
 dir.create(tf)
 target = paste0(tf, "/banoSE.h5", collapse="/")
-banoSE = writeHDF5Dataset(banovichSE, target, "banoSE")
+banoSE = rhconvert(banovichSE, target, "banoSE")
 banoSE
 ```
 
@@ -48,4 +50,11 @@ Access capabilities:
 ```{r usenew}
 assay(banoSE[1,])
 subsetByOverlaps(banoSE, rowRanges(banoSE)[1001:1010])
+```
+
+# Import a packaged HDF5RangedSummarizedExperiment
+
+```{r lkmm}
+litg = getLitGeu()
+litg
 ```

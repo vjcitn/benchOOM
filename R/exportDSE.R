@@ -1,47 +1,28 @@
 #' @import SummarizedExperiment
+#' @import DelayedArray
 #' @import HDF5Array
-
-.writeHDF5Dataset = function (x, file, name, ...) 
+#' @export
+setClass("HDF5RangedSummarizedExperiment", contains="RangedSummarizedExperiment")
+#' dump assay of RangedSummarizedExperiment to Delayed HDF5 and return suitable instance
+#' @param rse RangedSummarizedExperiment instance
+#' @param file character string with path to HDF5 store on disk
+#' @param name character string with name of HDF5 dataset
+#' @examples
+#' \dontrun{
+#'  library(geuvPack)
+#'  data(geuFPKM)
+#'  delgeu = rhconvert( geuFPKM, "geuFPKM.h5", "geuFPKM" )
+#'  delgeu
+#' }
+#'
+#' @export
+rhconvert = function (rse, file, name, ...) 
 {
-# literal copy from HDF5Array for generic, adding dots
-# please remove after getting some consensus on
-# whether/how to define generic
-#
-    old_dump_file <- getHDF5DumpFile()
-    old_dump_name <- getHDF5DumpName()
-    setHDF5DumpFile(file)
-    on.exit({
-        setHDF5DumpFile(old_dump_file)
-        setHDF5DumpName(old_dump_name)
-    })
-    setHDF5DumpName(name)
-    dump <- HDF5ArrayDump(dim(x), dimnames(x), type(x))
-    write_to_dump(x, dump)
-    invisible(as(dump, "HDF5ArraySeed"))
+    assaydat = assay(rse)
+    harr = writeHDF5Array(assaydat, file, name, ...)
+    harr = DelayedArray(harr)
+    rownames(harr) = rownames(rse)
+    colnames(harr) = colnames(rse)
+    assay(rse) = harr
+    new("HDF5RangedSummarizedExperiment", rse)
 }
-#' marker class for delayed assay content
-#' @export
-setClass("DelayedRangedSummarizedExperiment", contains="RangedSummarizedExperiment")
-
-#' support for HDF5-backed SummarizedExperiment
-#' @param x \code{\link[SummarizedExperiment]{SummarizedExperiment-class}} instance
-#' @param file character string identifying target file to hold HDF5
-#' @param name character string identifying dataset
-#' @param \dots passed down
-#' @aliases "writeHDF5Dataset-RangedSummarizedExperiment"
-#' @export
-setGeneric("writeHDF5Dataset", function(x, file, name, ...)
-   standardGeneric("writeHDF5Dataset"))
-setMethod("writeHDF5Dataset", "ANY", function(x, file, name, ...) {
-   .writeHDF5Dataset(x, file, name, ...)
-})
-setMethod("writeHDF5Dataset", "RangedSummarizedExperiment", function(x, file, name, ...) {
-   assaydat = assay(x)
-   seed = .writeHDF5Dataset(assaydat, file, name, ...)
-   seed = DelayedArray(seed)
-   rownames(seed) = rownames(x)
-   colnames(seed) = colnames(x)
-   assay(x) = seed
-   new("DelayedRangedSummarizedExperiment", x) # now the assay data is on disk
-})
-

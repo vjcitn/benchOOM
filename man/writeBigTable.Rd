@@ -17,9 +17,18 @@ writeBigTable(x, src, featureKeyName, sampleKeyName, tablename, ...)
 
 \item{tablename}{character string used as a prefix, suffixes _assay, _ranges, _coldata will be appended in the back end}
 
-\item{\dots}{not used
-export}
+\item{\dots}{not used}
 }
 \description{
 propagate information from a RangedSummarizedExperiment to google BigTable
+}
+\examples{
+\dontrun{
+ require(geuvPack)
+ data(geuFPKM) # following will generate charges,
+ # assumes that 'bq' is an authenticated 'src_bigquery' instance
+ bq = writeBigTable( geuFPKM, bq, "GENEID", "SAMPLE", "geuFPKM" )
+ bq
+}
+
 }

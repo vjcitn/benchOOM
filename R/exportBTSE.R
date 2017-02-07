@@ -1,11 +1,22 @@
 #' propagate information from a RangedSummarizedExperiment to google BigTable
+#' @import SummarizedExperiment
+#' @importClassesFrom SummarizedExperiment RangedSummarizedExperiment
 #' @param x RangedSummarizedExperiment
 #' @param src instance of src_bigrquery
 #' @param featureKeyName character string that is used for joining features to metadata
 #' @param sampleKeyName character string that is used for joining samples to feature data
 #' @param tablename character string used as a prefix, suffixes _assay, _ranges, _coldata will be appended in the back end
 #' @param \dots not used
-#' export
+#' @examples
+#' \dontrun{
+#'  require(geuvPack)
+#'  data(geuFPKM) # following will generate charges,
+#'  # assumes that 'bq' is an authenticated 'src_bigquery' instance
+#'  bq = writeBigTable( geuFPKM, bq, "GENEID", "SAMPLE", "geuFPKM" )
+#'  bq
+#' }
+#'
+#' @export
 setGeneric("writeBigTable", function(x, src, featureKeyName, sampleKeyName, tablename, ...)
    standardGeneric("writeBigTable"))
 setOldClass("src_bigquery")
