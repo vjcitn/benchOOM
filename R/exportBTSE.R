@@ -34,6 +34,7 @@ setMethod("writeBigTable", c("RangedSummarizedExperiment", "src_bigquery"), func
    dfmeta = data.frame(featureKey, dfmeta)
    names(dfmeta)[1] = featureKeyName
    sampdata = as.data.frame(colData(x))
+   colnames(sampdata) = gsub("\\.", "_", colnames(sampdata))
    sampdata = data.frame(colnames(x), sampdata)
    names(sampdata)[1] = sampleKeyName
    mycon = src$con
