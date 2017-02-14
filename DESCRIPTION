@@ -1,8 +1,9 @@
 Package: benchOOM
 Title: benchmarking out-of-memory strategies for R
-Version: 0.0.6
+Version: 0.0.7
 Author: VJ Carey <stvjc@channing.harvard.edu> and others
 Description: Provide infrastructure to compare diverse out-of-memory strategies.
+Depends: GO.db
 Suggests:
     rmarkdown,
     knitr,
@@ -17,7 +18,8 @@ Imports:
     DelayedArray,
     HDF5Array (>= 1.3.5),
     SummarizedExperiment,
-    bigrquery
+    bigrquery,
+    Organism.dplyr
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
 LazyLoad: yes
