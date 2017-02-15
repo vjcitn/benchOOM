@@ -5,12 +5,13 @@
 #' @import dplyr
 #' @import magrittr
 #' @import AnnotationDbi
-#' @param src instance of src_organism in Organism.dplyr
+#' @param src_o instance of src_organism in Organism.dplyr
 #' @export
-gobrowse = function (src, ont = "BP", BPini = "A-L") 
+gobrowse = function (src_o, ont = "BP", BPini = "A-L", iniGO="abscission") 
 {
   require(GO.db)
   require(Organism.dplyr)
+  stopifnot(inherits(src_o, "src_organism"))
   gok = keys(GO.db)
   godf = AnnotationDbi::select(GO.db, keys = gok, columns = c("GOID", 
                                                               "ONTOLOGY", "TERM"))
@@ -25,23 +26,23 @@ gobrowse = function (src, ont = "BP", BPini = "A-L")
   godf = godf[order(godf$TERM), ]
   ui <- miniPage(gadgetTitleBar("Search for a GO category:"), 
                  miniContentPanel(selectInput("gosel", "GO:", godf$TERM, 
-                                              selected = godf$TERM[1]), dataTableOutput("tab")))
+                                              selected = iniGO), dataTableOutput("tab")))
   server <- function(input, output, session) {
     output$tab <- renderDataTable({
       ans = godf[godf$TERM == input$gosel, ]
       curid = ans$GOID
-      genes = (src %>% tbl("id_go") %>% filter(go == curid)) %>% 
+      genes = (src_o %>% tbl("id_go") %>% filter(go == curid)) %>% 
         as.data.frame()
-      jo = inner_join(tbl(src, "id_go"), tbl(src, "ranges_gene"))
+      jo = inner_join(tbl(src_o, "id_go"), tbl(src_o, "ranges_gene"))
       res = jo %>% filter(go==curid) %>% collect() %>% GenomicRanges::GRanges()
-      
+      as.data.frame(res)   
     })
     observeEvent(input$done, {
       ans = godf[godf$TERM == input$gosel, ]
       curid = ans$GOID
-      genes = (src %>% tbl("id_go") %>% filter(go == curid)) %>% 
+      genes = (src_o %>% tbl("id_go") %>% filter(go == curid)) %>% 
         as.data.frame()
-      jo = inner_join(tbl(src, "id_go"), tbl(src, "ranges_gene"))
+      jo = inner_join(tbl(src_o, "id_go"), tbl(src_o, "ranges_gene"))
       res = jo %>% filter(go==curid) %>% collect() %>% GenomicRanges::GRanges()
       stopApp(res)
     })
