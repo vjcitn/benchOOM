@@ -1,4 +1,5 @@
 #' obtain example of HDF5-backed RangedSummarizedExperiment
+#' @importFrom SummarizedExperiment loadHDF5SummarizedExperiment
 #' @examples
 #' require("SummarizedExperiment")
 #' litgeu = getLitGeu()
@@ -6,7 +7,5 @@
 #'
 #' @export
 getLitGeu = function() {
- data("litgeu")
- assay(litgeu)@seed@file = system.file("hdf5/litgeu.h5", package="benchOOM")
- litgeu
+ loadHDF5SummarizedExperiment(system.file("litgeu", package="benchOOM"))
 }
