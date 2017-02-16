@@ -57,3 +57,22 @@ subsetByOverlaps(banoSE, rowRanges(banoSE)[1001:1010])
 litg = getLitGeu()
 litg
 ```
+
+# Benchmarking exercise
+
+We want to create a spectrum of biologically meaningful queries.  To
+this end we introduced the gobrowse and go2ranges functions.  
+```{r bb}
+library(Organism.dplyr)
+if (file.exists("~/hg19.sqlite")) 
+  hg19 = src_organism(dbpath="~/hg19.sqlite") else {
+  library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+  hg19 = src_organism(TxDb.Hsapiens.UCSC.hg19.knownGene)
+  }
+r1 = go2ranges("transmembrane receptor activity", hg19)
+length(r1)
+library(microbenchmark)
+microbenchmark(subsetByOverlaps(banovichSE, r1), times=5)
+microbenchmark(subsetByOverlaps(banoSE, r1), times=5)
+```
+

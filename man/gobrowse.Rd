@@ -4,10 +4,10 @@
 \alias{gobrowse}
 \title{Use a shiny gadget to query user on a GO category and return entrez ids}
 \usage{
-gobrowse(src)
+gobrowse(src_o, ont = "BP", BPini = "A-L", iniGO = "abscission")
 }
 \arguments{
-\item{src}{instance of src_organism in Organism.dplyr}
+\item{src_o}{instance of src_organism in Organism.dplyr}
 }
 \description{
 Use a shiny gadget to query user on a GO category and return entrez ids
