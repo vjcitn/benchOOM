@@ -1,6 +1,6 @@
 Package: benchOOM
 Title: benchmarking out-of-memory strategies for R
-Version: 0.1.1
+Version: 0.1.2
 Author: VJ Carey <stvjc@channing.harvard.edu> and others
 Description: Provide infrastructure to compare diverse out-of-memory strategies.
 Depends: GO.db

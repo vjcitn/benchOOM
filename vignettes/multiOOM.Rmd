@@ -17,7 +17,7 @@ output:
     toc: yes
 ---
 
-## Introduction
+# Introduction
 
 In many large-data situations, it is impractical to load and retain
 data in R's working memory space.  We have had a look at
@@ -29,7 +29,7 @@ How can we obtain data on which approach will be most effective
 for a given task?  Comparative benchmarking is a very useful skill and
 we give a very rudimentary account of this here.
 
-## The harness
+# The harness
 
 It is common to speak of a program that drives other programs
 as a "harness" (see [wikipedia](https://en.wikipedia.org/wiki/Test_harness)
@@ -75,7 +75,7 @@ method to the result of `getStats`.  We'll leave the details
 of `getStats` to independent investigation.
 
 
-## An example method (OOM benchmarker)
+# An example method (OOM benchmarker for HDF5 matrix)
 
 Let's look at the method for HDF5:
 ```{r lkme}

@@ -41,8 +41,7 @@ assay component of a SummarizedExperiment:
 library(benchOOM)
 tf = tempfile()
 dir.create(tf)
-target = paste0(tf, "/banoSE.h5", collapse="/")
-banoSE = rhconvert(banovichSE, target, "banoSE")
+banoSE = saveHDF5SummarizedExperiment(banovichSE, tf, replace=TRUE)
 banoSE
 ```
 
