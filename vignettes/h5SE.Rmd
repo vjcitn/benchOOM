@@ -76,3 +76,13 @@ microbenchmark(subsetByOverlaps(banovichSE, r1), times=5)
 microbenchmark(subsetByOverlaps(banoSE, r1), times=5)
 ```
 
+This shows that the speed of getting a delayed array corresponding to a large
+pathway is similar if the base data are on disk in HDF5 or in memory.
+
+However, applying as.array to get the results into memory seems
+slow for this particular request, and this could have something to do
+with the order of the rows as specified in the request.  They
+may be scattered throughout the HDF5 store, and costly to recover
+together, in the order returned by the in memory request.  Needs
+more investigation.
+
