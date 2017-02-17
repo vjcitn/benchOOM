@@ -86,3 +86,5 @@ may be scattered throughout the HDF5 store, and costly to recover
 together, in the order returned by the in memory request.  Needs
 more investigation.
 
+There is an indication that if the records requested are contiguous
+rows, the as.array moves quickly...
