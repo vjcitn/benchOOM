@@ -69,11 +69,12 @@ if (file.exists("~/hg19.sqlite"))
   library(TxDb.Hsapiens.UCSC.hg19.knownGene)
   hg19 = src_organism(TxDb.Hsapiens.UCSC.hg19.knownGene)
   }
-r1 = go2ranges("transmembrane receptor activity", hg19)
+r1 = go2ranges("transmembrane receptor activity", hg19) # length 2302
 length(r1)
 library(microbenchmark)
-microbenchmark(subsetByOverlaps(banovichSE, r1), times=5)
-microbenchmark(subsetByOverlaps(banoSE, r1), times=5)
+microbenchmark(as.array(assay(subsetByOverlaps(banovichSE, r1[1:20]))), times=5)
+microbenchmark(as.array(assay(subsetByOverlaps(banoSE, r1[1:10]))), times=5)
+# also include an exported, sorted GenomicRanges ... metadata work may be needed
 ```
 
 This shows that the speed of getting a delayed array corresponding to a large
