@@ -72,8 +72,11 @@ if (file.exists("~/hg19.sqlite"))
 r1 = go2ranges("transmembrane receptor activity", hg19) # length 2302
 length(r1)
 library(microbenchmark)
+# wrap in some kind of harness structure -- outputs that move towards visualization
+# shiny interface -- user can pick pathway size or sort or not ... statistics
+# would need to be able to interrupt -- that does kill the whole session?
 microbenchmark(as.array(assay(subsetByOverlaps(banovichSE, r1[1:20]))), times=5)
-microbenchmark(as.array(assay(subsetByOverlaps(banoSE, r1[1:10]))), times=5)
+microbenchmark(as.array(assay(subsetByOverlaps(banoSE, r1[1:20]))), times=5)
 # also include an exported, sorted GenomicRanges ... metadata work may be needed
 ```
 
