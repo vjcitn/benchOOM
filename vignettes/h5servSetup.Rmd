@@ -24,7 +24,7 @@ HDF Server is a Python-based web service that can be used to send and receive HD
 
 #Setup the HDF server 
 
-1.Local Installation: 
+##Local Installation
 
 Python packages required:
 * NumPy 1.10.4 or later
@@ -37,8 +37,8 @@ a.) Install Anaconda
 ```{}
 
   conda create -n h5serv python=2.7 h5py tornado requests pytz
+  activate h5serv
   pip install watchdog
-  source activate h5serv
   
 ```
 
@@ -62,7 +62,7 @@ c.) Clone the h5serv project:
 The server would start running. 
 This would be indicated by the output - Starting event loop on port: 5000
 
-2. AWS Instance
+##AWS Instance
 
 a.) Launch an AWS Instance
 
@@ -82,11 +82,11 @@ The server would start running.
 This would be indicated by the output - Starting event loop on port: 5000
 
 
-#Verification 
+##Verification 
 
 To verify that the h5serv was installed correctly: 
 
-1. Open a new terminal/ Launch the AWS instance again
+1. Open a new terminal[for local installation] / Launch the AWS instance again [for installation on AWS instance]
 
 2. Run Anaconda command prompt
 
@@ -101,3 +101,37 @@ To verify that the h5serv was installed correctly:
 
 This would run a number of tests to verify the installation. 
 
+#Working with the HDF Server on an AWS Instance
+
+Currently, the HDF server has been installed and is running on : AWS Public AMI id:  ami-4e77ac58
+
+a.)With this AMI, launch an AWS instance. 
+( ssh -i /path/to/keyfile.pem ec2-user@publicipoftheinstance )
+
+```{}
+
+  source activate h5serv
+  cd hdf5-json/h5serv/server/
+  python app.py
+  
+```
+
+b.)Launch the instance again in a separate terminal.
+
+```{}
+
+  cd scripts
+  python tall_test.py
+  
+```
+
+##Get data on the server
+For example, if we want to get the assays.h5 file (for geuFPKM data) from our local machine onto the server running on an instance: 
+ 
+```{}
+
+  scp -i/path/keyfile.pem /path/assays.h5 ec2-user@publicipoftheinstance:/hdf5-json/h5serv/data/
+  
+```
+The file placed in the /data folder gets picked up by the server and it generates a domain name.
+e.g: for the assays.h5 file, domain name : assays.hdfgroup.org. 
