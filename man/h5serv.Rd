@@ -21,6 +21,9 @@ h5serv(dsn = "assay001", rows = 1:3, cols = 1:5,
 \description{
 There is no guarantee of availability of this service.
 }
+\note{
+You will need python h5pyd support installed, see \url{https://github.com/HDFGroup/h5pyd}
+}
 \examples{
 h5serv()
 }

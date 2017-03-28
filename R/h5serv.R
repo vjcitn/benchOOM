@@ -6,6 +6,7 @@
 #' @param cols vector of column selection, only min and max are used to define a range, all data in range retrieved
 #' @param h5id name of HDF5 resource as identified by server
 #' @param endpoint URL for server
+#' @note You will need python h5pyd support installed, see \url{https://github.com/HDFGroup/h5pyd}
 #' @examples
 #' h5serv()
 #' @export
