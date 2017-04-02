@@ -20,9 +20,9 @@ Imports:
     SummarizedExperiment,
     bigrquery,
     Organism.dplyr,
-    rPython
+    rPython, rjson, httr
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
 LazyLoad: yes
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
