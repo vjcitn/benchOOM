@@ -7,18 +7,21 @@ paste0(serverURL, "/?host=", host)
 
 setClass("H5ShContent", representation(
 # "host" content
-   serverURL="character",
+   serverURL="character",  # includes port
    host="character",
    hrefs="character",
    lastModified="character", created="character",
    root = "character"))
+
 setClass("H5SDatasets", representation(dsuuid="character", attrs="list"), contains="H5ShContent")
+
 setMethod("show", "H5ShContent", function(object) {
  self = object@hrefs["self"]
  cat("H5serv content for 'host'", object@host, "\n")
  cat(" at server", object@serverURL, "\n")
 # cat(" use datasets() ...\n")
 })
+
 setMethod("show", "H5SDatasets", function(object) {
  cat("H5SDatasets, (1 of ", length(object@dsuuid), "): ", object@dsuuid[1], "\n", sep="")
  cat("derived from :\n")
@@ -39,6 +42,7 @@ setMethod("datasets", "H5ShContent", function(object,...) {
  ds@attrs=atts@attrs
  ds
 })
+
 # should write (unexported?) methods here
 .serverURL = function(x) x@serverURL
 .host = function(x) x@host
@@ -71,6 +75,8 @@ setMethod("dsAttrs", "H5SDatasets", function(x, which=1, ...) {
 #' tds = datasets(tall)
 #' tds
 #' tds["0:3", "0:3"]
+#' tds[c(1,3),]
+#' tds[,c(1,3)]
 #' @export
 getH5ShContent = function(serverURL, host) {
  stopifnot(length(serverURL)==1, length(host)==1)
@@ -91,5 +97,44 @@ setMethod("[", c("H5SDatasets", "character", "character"), function (x, i, j, ..
  target = paste0(.serverURL(x), "/datasets/", .dsuuid(x), "/value?host=", .host(x), "&select=[", i, ",", j, "]")
  val = GET(target)
  ans = fromJSON( readBin( val$content, what="character" ) )
- t(do.call(rbind, ans$value))
+ (do.call(rbind, ans$value))
  })
+
+setMethod("[", c("H5SDatasets", "character", "missing"), function (x, i, j, ..., drop = TRUE) 
+ {
+ dims = dsAttrs(x)@attrs$shape$dims
+ colind = paste0("0:", as.integer(dims[2]))
+ target = paste0(.serverURL(x), "/datasets/", .dsuuid(x), "/value?host=", .host(x), 
+       "&select=[", i, ",", colind, "]")
+ val = GET(target)
+ ans = fromJSON( readBin( val$content, what="character" ) )
+ (do.call(rbind, ans$value))
+ })
+
+setMethod("[", c("H5SDatasets", "missing", "character"), function (x, i, j, ..., drop = TRUE) 
+ {
+ stopifnot(length(j)==1)
+ dims = dsAttrs(x)@attrs$shape$dims
+ rowind = paste0("0:", as.integer(dims[1]))
+ target = paste0(.serverURL(x), "/datasets/", .dsuuid(x), "/value?host=", .host(x), 
+       "&select=[", rowind, ",", j, "]")
+ val = GET(target)
+ ans = fromJSON( readBin( val$content, what="character" ) )
+ (do.call(rbind, ans$value))
+ })
+
+#trivial tuple generator
+tupleGen = function(x) {
+ y = x-1
+ paste(y,x,1,sep=":")
+}
+
+setMethod("[", c("H5SDatasets", "numeric", "missing"), function (x, i, j, ..., drop = TRUE) {
+  rowtups = tupleGen(i)
+  do.call(rbind, lapply(rowtups, function(r) x[r, ]))
+})
+
+setMethod("[", c("H5SDatasets", "missing", "numeric"), function (x, i, j, ..., drop = TRUE) {
+  coltups = tupleGen(j)
+  do.call(cbind, lapply(coltups, function(thecol) x[, thecol ]))
+})
