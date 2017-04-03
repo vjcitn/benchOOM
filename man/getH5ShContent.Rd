@@ -21,4 +21,6 @@ tall
 tds = datasets(tall)
 tds
 tds["0:3", "0:3"]
+tds[c(1,3),]
+tds[,c(1,3)]
 }
