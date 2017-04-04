@@ -77,6 +77,7 @@ setMethod("dsAttrs", "H5SDatasets", function(x, which=1, ...) {
 #' tds["0:3", "0:3"]
 #' tds[c(1,3),]
 #' tds[,c(1,3)]
+#' tds[c(1,3),c(1,3)]
 #' @export
 getH5ShContent = function(serverURL, host) {
  stopifnot(length(serverURL)==1, length(host)==1)
@@ -120,6 +121,11 @@ setMethod("[", c("H5SDatasets", "missing", "character"), function (x, i, j, ...,
        "&select=[", rowind, ",", j, "]")
  val = GET(target)
  ans = fromJSON( readBin( val$content, what="character" ) )
+# there may be a bug, or semantics of retrieving a column are
+# different from those of retrieving a row.  a row retrieval comes
+# back as an R list, a column retrieval comes back as a vector
+# we need a list 
+ if (!is.list(ans$value)) ans$value = list(ans$value)
  (do.call(rbind, ans$value))
  })
 
@@ -136,5 +142,18 @@ setMethod("[", c("H5SDatasets", "numeric", "missing"), function (x, i, j, ..., d
 
 setMethod("[", c("H5SDatasets", "missing", "numeric"), function (x, i, j, ..., drop = TRUE) {
   coltups = tupleGen(j)
-  do.call(cbind, lapply(coltups, function(thecol) x[, thecol ]))
+# retrieval of columns has different semantics
+  t(do.call(rbind, lapply(coltups, function(thecol) x[, thecol ])))
+})
+
+setMethod("[", c("H5SDatasets", "numeric", "numeric"), function (x, i, j, ..., drop = TRUE) {
+#
+# some optimization could be done here to retrieve by column
+# or row first prior to filtering the other index in R
+#
+# for now just retrieve rows and then filter in R
+#
+  rowtups = tupleGen(i)
+  rowsel = do.call(rbind, lapply(rowtups, function(r) x[r, ]))
+  rowsel[,j,drop=drop]
 })
