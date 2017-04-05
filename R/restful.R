@@ -154,6 +154,11 @@ setMethod("[", c("H5SDatasets", "numeric", "numeric"), function (x, i, j, ..., d
 # for now just retrieve rows and then filter in R
 #
   rowtups = tupleGen(i)
-  rowsel = do.call(rbind, lapply(rowtups, function(r) x[r, ]))
+#  following is a bad design when there are many columns
+#  retrieval is very costly
+# rowsel = do.call(rbind, lapply(rowtups, function(r) x[r, ]))
+#  instead limit the rows retrieved, to the maximum column index
+  maxcolind = paste0("0:", max(j)+1, ":1")
+  rowsel = do.call(rbind, lapply(rowtups, function(r) x[r, maxcolind ]))
   rowsel[,j,drop=drop]
 })
