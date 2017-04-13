@@ -5,7 +5,7 @@
 #' @param i character corresponding to row [e.g: "0:3"]
 #' @param j character correspoding to coloumn [e,g: "0:3"]
 #' @return a m1 with the microbenchmarking results [timings]
-#' @title microbenchmark retrieval of banovich assay data from HDF Server. [running on ec2 instance and schion]
+#' @title microbenchmark retrieval of banovich assay data from HDF Server. [running on ec2 instance and shion]
 #' @examples  
 #' \dontrun{
 #'    serverURL = "http://54.163.220.201:5000"
@@ -23,7 +23,7 @@ micro_H5bano <- function(serverURL = serverURL, host= host,times=times,i=i,j=j) 
 
 ### Note: For the Banovich assays.h5 data:  
 #for the ec2 instance : serverURL = http://54.163.220.201:5000, host= "assays.hdfgroup.org"
-#for schion : serverURL : http://170.223.248.164:7248, host="assays.hdfgroup.org"
+#for shion : serverURL : http://170.223.248.164:7248, host="assays.hdfgroup.org"
 
 #1. aws instance 
 #a. ) 0:3,0:3
@@ -36,7 +36,7 @@ micro_H5bano <- function(serverURL = serverURL, host= host,times=times,i=i,j=j) 
 #expr      min       lq     mean       median       uq      max    neval
 #bds[i, j] 94.13976 116.9109 123.8612 124.9422 138.7258 144.5875     5
 
-#2. schion
+#2. shion
 #a.) 0:3,0:3
 #Unit: milliseconds
 #expr      min       lq     mean   median       uq      max neval
