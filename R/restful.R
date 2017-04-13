@@ -21,7 +21,10 @@ setMethod("show", "H5ShContent", function(object) {
  cat(" at server", object@serverURL, "\n")
 # cat(" use datasets() ...\n")
 })
-
+setGeneric("dim_internal", function(object, ...) standardGeneric("dim_internal"))
+setMethod("dim_internal", "H5SDatasets", function(object) {
+  object@attrs$shape$dims
+})
 setMethod("show", "H5SDatasets", function(object) {
  cat("H5SDatasets, (1 of ", length(object@dsuuid), "): ", object@dsuuid[1], "\n", sep="")
  cat("derived from :\n")
