@@ -21,7 +21,6 @@ Imports:
     bigrquery,
     Organism.dplyr,
     rjson, httr
-Enhances: rPython
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
 LazyLoad: yes

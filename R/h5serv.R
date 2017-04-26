@@ -1,6 +1,5 @@
 #' prototypical query to HDF5 server established by Landmark Bioinfo (Shweta Gopaulakrishnan, reshg@channing.harvard.edu, Vince Carey, stvjc@channing.harvard.edu) 
 #' @description There is no guarantee of availability of this service.
-#' @import rPython
 #' @param dsn internal HDF5 name of dataset
 #' @param rows vector of row selection, only min and max are used to define a range, all data in range retrieved
 #' @param cols vector of column selection, only min and max are used to define a range, all data in range retrieved
@@ -12,7 +11,6 @@
 #' @export
 h5serv = function(dsn="assay001", rows=1:3, cols=1:5, h5id = "assays.hdfgroup.org", 
                    endpoint = "http://54.163.220.201:5000") {
- require("rPython")
  tf1 = tempfile()
  open(f1 <- file(tf1), "wb")
  writeLines("import h5pyd as h5py\n", tf1)
