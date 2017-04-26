@@ -1,7 +1,6 @@
 #' Use a shiny gadget to query user on a GO category and return entrez ids
 #' @import shiny
 #' @import miniUI
-#' @import DT
 #' @import dplyr
 #' @import magrittr
 #' @import AnnotationDbi

@@ -25,11 +25,11 @@ setGeneric("dim_internal", function(object, ...) standardGeneric("dim_internal")
 setMethod("dim_internal", "H5SDatasets", function(object) {
   object@attrs$shape$dims
 })
-setMethod("show", "H5SDatasets", function(object) {
- cat("H5SDatasets, (1 of ", length(object@dsuuid), "): ", object@dsuuid[1], "\n", sep="")
- cat("derived from :\n")
- callNextMethod()
-})
+#setMethod("show", "H5SDatasets", function(object) {
+# cat("H5SDatasets, (1 of ", length(object@dsuuid), "): ", object@dsuuid[1], "\n", sep="")
+# cat("derived from :\n")
+# callNextMethod()
+#})
 
 #' extract dataset UUID and attributes from H5ShContent
 #' @param object instance of H5ShContent
@@ -96,6 +96,12 @@ getH5ShContent = function(serverURL, host) {
          created=ans$created, root=ans$root)
 }
 
+# basic design:
+# H5ShContent -- top level reference to file
+# H5SDatasets -- collection of datasets within a file
+# H5SDataset -- a specific dataset
+# 
+
 setMethod("[", c("H5SDatasets", "character", "character"), function (x, i, j, ..., drop = TRUE) 
  {
  target = paste0(.serverURL(x), "/datasets/", .dsuuid(x), "/value?host=", .host(x), "&select=[", i, ",", j, "]")
@@ -104,9 +110,23 @@ setMethod("[", c("H5SDatasets", "character", "character"), function (x, i, j, ..
  (do.call(rbind, ans$value))
  })
 
+.isH5onedim = function(x) {
+ stopifnot(is(x, "H5SDatasets"))
+ dims = dsAttrs(x)@attrs$shape$dims
+ length(dims)==1
+}
+
 setMethod("[", c("H5SDatasets", "character", "missing"), function (x, i, j, ..., drop = TRUE) 
  {
  dims = dsAttrs(x)@attrs$shape$dims
+# pure vector selection
+ if (length(dims)==1) {
+       target = paste0(.serverURL(x), "/datasets/", .dsuuid(x), 
+        "/value?host=", .host(x), "&select=[", i, "]")
+       val = GET(target)
+       ans = fromJSON(readBin(val$content, what = "character"))
+       return(ans$value)
+       }
  colind = paste0("0:", as.integer(dims[2]))
  target = paste0(.serverURL(x), "/datasets/", .dsuuid(x), "/value?host=", .host(x), 
        "&select=[", i, ",", colind, "]")

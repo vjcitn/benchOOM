@@ -6,7 +6,7 @@
 #' @import rhdf5
 #' @import ff
 #' @import microbenchmark
-#' @import data.table
+#' @importFrom data.table data.table
 #' @import RSQLite
 #' @import bigmemory
 .h5RoundTrip = function(x, chunkIn=c(1000,10), inLevel=0, intimes=1) {
@@ -93,7 +93,7 @@ list(mwrite=mw, ingFull=mr, ing1K=msel, times=intimes, method="sqlite")
 #system("rm -rf ex_dt.rda")
 if (file.exists("ex_dt.rda")) file.remove("ex_dt.rda")
 Sys.sleep(1)
-requireNamespace("data.table")
+#requireNamespace("data.table")
 mw = microbenchmark({
   dtx = data.table(x)
   save(dtx, file="ex_dt.rda", compress=FALSE)

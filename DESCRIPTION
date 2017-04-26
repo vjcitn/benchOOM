@@ -27,3 +27,8 @@ License: Artistic-2.0
 LazyLoad: yes
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1.9000
+Collate: exportOracleSE.R loadlit.R
+ 	benchmark_h5serv.R go2ranges.R  restful.R
+	dataBench.R  gobr.R   setContexts.R
+	exportBTSE.R  h5serv.R banoEC2.R  
+
