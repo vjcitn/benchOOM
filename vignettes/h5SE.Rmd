@@ -7,13 +7,8 @@ vignette: >
   %\VignetteIndexEntry{h5DSE: Out-of-memory illustrations for SummarizedExperiment}
   %\VignetteEncoding{UTF-8}
 output:
-  BiocStyle::pdf_document:
-    toc: yes
+  html_document:
     number_sections: yes
-  BiocStyle::html_document:
-    highlight: pygments
-    number_sections: yes
-    theme: united
     toc: yes
 ---
 
@@ -27,10 +22,10 @@ We'll work with some 450k data.
 suppressPackageStartupMessages({
 library(SummarizedExperiment)
 library(HDF5Array)
-library(yriMulti)
-if (!exists("banovichSE")) data(banovichSE)
+library(benchOOM)
 })
-banovichSE
+bano_inmem = get_bano_inmem()
+bano_inmem
 ```
 
 # Export a standard RangedSummarizedExperiment
@@ -41,7 +36,7 @@ assay component of a SummarizedExperiment:
 library(benchOOM)
 tf = tempfile()
 dir.create(tf)
-banoSE = saveHDF5SummarizedExperiment(banovichSE, tf, replace=TRUE)
+banoSE = saveHDF5SummarizedExperiment(bano_inmem, tf, replace=TRUE)
 banoSE
 ```
 
@@ -63,19 +58,13 @@ litg
 We want to create a spectrum of biologically meaningful queries.  To
 this end we introduced the gobrowse and go2ranges functions.  
 ```{r bb}
-library(Organism.dplyr)
-if (file.exists("~/hg19.sqlite")) 
-  hg19 = src_organism(dbpath="~/hg19.sqlite") else {
-  library(TxDb.Hsapiens.UCSC.hg19.knownGene)
-  hg19 = src_organism(TxDb.Hsapiens.UCSC.hg19.knownGene)
-  }
-r1 = go2ranges("transmembrane receptor activity", hg19) # length 2302
+r1 = go2ranges("oxidoreductase activity", "v75") # length 2302
 length(r1)
 library(microbenchmark)
 # wrap in some kind of harness structure -- outputs that move towards visualization
 # shiny interface -- user can pick pathway size or sort or not ... statistics
 # would need to be able to interrupt -- that does kill the whole session?
-microbenchmark(as.array(assay(subsetByOverlaps(banovichSE, r1[1:20]))), times=5)
+microbenchmark(as.array(assay(subsetByOverlaps(bano_inmem, r1[1:20]))), times=5)
 microbenchmark(as.array(assay(subsetByOverlaps(banoSE, r1[1:20]))), times=5)
 # also include an exported, sorted GenomicRanges ... metadata work may be needed
 ```

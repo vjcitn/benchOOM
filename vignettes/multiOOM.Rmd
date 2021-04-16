@@ -7,13 +7,8 @@ vignette: >
   %\VignetteIndexEntry{Benchmarking multiple out-of-memory strategies}
   %\VignetteEncoding{UTF-8}
 output:
-  BiocStyle::pdf_document:
-    toc: yes
+  html_document:
     number_sections: yes
-  BiocStyle::html_document:
-    highlight: pygments
-    number_sections: yes
-    theme: united
     toc: yes
 ---
 

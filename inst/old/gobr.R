@@ -2,8 +2,7 @@
 #' @import shiny
 #' @import miniUI
 #' @import dplyr
-#' @import magrittr
-#' @import AnnotationDbi
+#' @importFrom magrittr %>%
 #' @param src_o instance of src_organism in Organism.dplyr
 #' @export
 gobrowse = function (src_o, ont = "BP", BPini = "A-L", iniGO="abscission") 

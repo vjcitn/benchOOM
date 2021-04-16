@@ -2,25 +2,19 @@
 % Please edit documentation in R/go2ranges.R
 \name{go2ranges}
 \alias{go2ranges}
-\title{given a GO term, obtain a GRanges on the basis of a src_organism and GO.db}
+\title{given a GO term, obtain a GRanges on the basis of EnsDb and GO.db}
 \usage{
-go2ranges(iniGO = "abscission", src_o, gobasis = "id_go_all", ont = "MF",
-  BPini = "A-L")
+go2ranges(term = "oxidoreductase activity", ens_build = "v79")
 }
 \arguments{
-\item{iniGO}{character string of length one, should match a TERM in GO.db for the selected ontology}
+\item{term}{character(1) should be GO term}
 
-\item{src_o}{a src_organism instance}
-
-\item{gobasis}{a character string naming a go-related tbl in src_o}
-
-\item{ont}{a character string naming an ontology (MF, CC, BP)}
-
-\item{BPini}{a character string, if "A-L", candidate terms must begin with a-l, otherwise must begin with a complementary letter (m-z, etc.)}
+\item{ens_build}{character(1) either "v75" or "v79"}
 }
 \description{
-given a GO term, obtain a GRanges on the basis of a src_organism and GO.db
+given a GO term, obtain a GRanges on the basis of EnsDb and GO.db
 }
-\note{
-the BPini and ont parameters are for controlling memory consumption, principally for shiny usage
+\examples{
+r = go2ranges()
+head(r)
 }

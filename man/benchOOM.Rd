@@ -4,9 +4,13 @@
 \alias{benchOOM}
 \title{harness for out-of-memory benchmarking}
 \usage{
-benchOOM(NR = 5000, NC = 100, times = 5, inseed = 1234,
-  methods = list(.h5RoundTrip, .ffRoundTrip, .slRoundTrip, .dtRoundTrip,
-  .bmRoundTrip))
+benchOOM(
+  NR = 5000,
+  NC = 100,
+  times = 5,
+  inseed = 1234,
+  methods = list(.h5RoundTrip, .ffRoundTrip, .slRoundTrip, .dtRoundTrip, .bmRoundTrip)
+)
 }
 \arguments{
 \item{NR}{numeric number of rows of matrix to process}
@@ -25,9 +29,4 @@ harness for out-of-memory benchmarking
 }
 \note{
 the \code{methodList} function collects some example 'round trip' simulation functions
-}
-\examples{
-methodList()$bigm
-names(methodList())
-benchOOM(methods=methodList())
 }

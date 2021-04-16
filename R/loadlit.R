@@ -1,5 +1,6 @@
 #' obtain example of HDF5-backed RangedSummarizedExperiment
-#' @importFrom SummarizedExperiment loadHDF5SummarizedExperiment
+#' @importFrom HDF5Array loadHDF5SummarizedExperiment
+#' @import SummarizedExperiment
 #' @examples
 #' require("SummarizedExperiment")
 #' litgeu = getLitGeu()

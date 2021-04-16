@@ -1,13 +1,12 @@
 Package: benchOOM
 Title: benchmarking out-of-memory strategies for R
-Version: 0.1.11
+Version: 0.1.13
 Author: VJ Carey <stvjc@channing.harvard.edu> and others
 Description: Provide infrastructure to compare diverse out-of-memory strategies.
 Depends: GO.db
 Suggests:
     rmarkdown,
-    knitr,
-    yriMulti
+    knitr
 Imports:
     rhdf5,
     bigmemory,
@@ -15,19 +14,17 @@ Imports:
     ff,
     data.table,
     microbenchmark,
-    DelayedArray,
     HDF5Array (>= 1.3.5),
     SummarizedExperiment,
-    bigrquery,
-    Organism.dplyr,
-    rjson, httr
+    HDF5Array,
+    AnnotationDbi, ensembldb, 
+    EnsDb.Hsapiens.v75, EnsDb.Hsapiens.v79,
+    BiocFileCache, 
+    ExperimentHub, org.Hs.eg.db
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
 LazyLoad: yes
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1.9000
-Collate: exportOracleSE.R loadlit.R
- 	benchmark_h5serv.R go2ranges.R  restful.R
-	dataBench.R  gobr.R   setContexts.R
-	exportBTSE.R  h5serv.R banoEC2.R  
+RoxygenNote: 7.1.1
+Encoding: UTF-8
 

@@ -7,13 +7,8 @@ vignette: >
   %\VignetteIndexEntry{HDFS: HDF Server Setup}
   %\VignetteEncoding{UTF-8}
 output:
-  BiocStyle::pdf_document:
-    toc: yes
-    number_sections: yes
   BiocStyle::html_document:
-    highlight: pygments
     number_sections: yes
-    theme: united
     toc: yes
 ---
 
